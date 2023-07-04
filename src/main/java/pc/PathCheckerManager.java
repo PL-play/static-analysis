@@ -38,6 +38,7 @@ public class PathCheckerManager {
                 .map(String::trim)
                 .map(String::toUpperCase)
                 .map(namedCheckers::get)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 }

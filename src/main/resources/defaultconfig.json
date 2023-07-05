@@ -4,6 +4,8 @@
   "rules": [
     {
       "name": "命令注入",
+      "ruleCwe": "78",
+      "ruleLevel": 1,
       "sources" : [
         "<java.net.URLConnection: java.io.InputStream getInputStream()>",
         "<java.net.URLConnection: java.lang.Object getContent()>",
@@ -177,6 +179,8 @@
     },
     {
       "name": "路径操作",
+      "ruleCwe": "22",
+      "ruleLevel": 1,
       "sources": [
         "<java.net.URLConnection: java.io.InputStream getInputStream()>",
         "<java.net.URLConnection: java.lang.Object getContent()>",
@@ -335,6 +339,8 @@
     },
     {
       "name": "sql注入",
+      "ruleCwe": "89",
+      "ruleLevel": 1,
       "sources" : [
         "<java.net.URLConnection: java.io.InputStream getInputStream()>",
         "<java.net.URLConnection: java.lang.Object getContent()>",

@@ -350,9 +350,29 @@ public class Config {
 
     public static class Rule {
         private String name;
+
+        private String ruleCwe;
+
+        private Integer ruleLevel;
         private List<String> sources = Collections.emptyList();
 
         private List<String> sinks = Collections.emptyList();
+
+        public String getRuleCwe() {
+            return ruleCwe;
+        }
+
+        public void setRuleCwe(String ruleCwe) {
+            this.ruleCwe = ruleCwe;
+        }
+
+        public Integer getRuleLevel() {
+            return ruleLevel;
+        }
+
+        public void setRuleLevel(Integer ruleLevel) {
+            this.ruleLevel = ruleLevel;
+        }
 
         public List<String> getSources() {
             return sources;

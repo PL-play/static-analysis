@@ -185,7 +185,7 @@ public class AnalysisExecutor {
                 postChecks.forEach(f -> f.apply(infoflow));
             }
             List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), project, trackSourceFile);
-            ruleResult.add(new RuleResult(r.getName(), results));
+            ruleResult.add(new RuleResult(r.getName(), r.getRuleCwe(), r.getRuleLevel(), results));
         }
         this.ruleResult = ruleResult;
         if (writeOutput) {

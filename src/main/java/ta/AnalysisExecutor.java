@@ -90,6 +90,11 @@ public class AnalysisExecutor {
         return this;
     }
 
+    public AnalysisExecutor withConfig(Config config) {
+        this.config = config;
+        return this;
+    }
+
     public AnalysisExecutor setProject(String project) {
         this.config.setProject(project);
         return this;

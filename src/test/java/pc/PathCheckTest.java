@@ -28,5 +28,23 @@ public class PathCheckTest {
                 //TODO set default path checker
                 .setPathChecker("default")
                 .analysis();
+
+        project = "/home/ran/Documents/work/thusa2/testprojects/jsp-demo";
+        result = "result/jsp_result.json";
+        analysisExecutor.
+                setProject(project).
+                setCallGraphAlgorithm("SPARK")
+                // Track source file and calculate line number of jsp. Default false.
+                .trackSourceFile(true)
+                // Path reconstruction time out.
+                .setTimeout(180)
+                // write detect result to file.
+                .writeOutput(true)
+                .setOutput(result)
+                //TODO set default path checker
+                .setPathChecker("default")
+                .analysis();
+
+
     }
 }

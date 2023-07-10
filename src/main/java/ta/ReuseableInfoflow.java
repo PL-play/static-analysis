@@ -119,8 +119,8 @@ public class ReuseableInfoflow extends Infoflow {
                     handler.onResultsAvailable(getICFG(), results);
 
                 // Write the Jimple files to disk if requested
-                if (config.getWriteOutputFiles())
-                    PackManager.v().writeOutput();
+//                if (config.getWriteOutputFiles())
+//                    PackManager.v().writeOutput();
             } catch (Exception ex) {
                 StringWriter stacktrace = new StringWriter();
                 PrintWriter pw = new PrintWriter(stacktrace);

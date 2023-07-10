@@ -32,7 +32,7 @@ public class IFFactory {
         // infoflow config
         InfoflowConfiguration config = new InfoflowConfiguration();
 
-        config.setCodeEliminationMode(InfoflowConfiguration.CodeEliminationMode.PropagateConstants);
+        config.setCodeEliminationMode(InfoflowConfiguration.CodeEliminationMode.NoCodeElimination);
         config.setImplicitFlowMode(InfoflowConfiguration.ImplicitFlowMode.ArrayAccesses);
         config.setEnableReflection(true);
         config.setEnableLineNumbers(true);

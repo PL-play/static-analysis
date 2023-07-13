@@ -38,6 +38,8 @@ public class AnalysisExecutor {
 
     private boolean doPostCheck = true;
 
+    private RuleSelectorManager ruleSelectorManager = new RuleSelectorManager();
+
     public boolean isTrackSourceFile() {
         return trackSourceFile;
     }
@@ -67,7 +69,8 @@ public class AnalysisExecutor {
     }
 
     public static AnalysisExecutor newInstance() {
-        return new AnalysisExecutor();
+        AnalysisExecutor analysisExecutor = new AnalysisExecutor();
+        return analysisExecutor.withDefaultConfig();
     }
 
     public AnalysisExecutor withDefaultConfig() {
@@ -78,6 +81,33 @@ public class AnalysisExecutor {
             throw new RuntimeException(e);
         }
         return this;
+    }
+
+    public AnalysisExecutor setRules(String... cweId) {
+        List<Config.Rule> rules = ruleSelectorManager.select(cweId);
+        if (rules.isEmpty()) {
+            throw new RuntimeException("No rules found.");
+        }
+        this.config.setRules(rules);
+        return this;
+    }
+
+    public AnalysisExecutor setRules(List<String> cweIds) {
+        return setRules(cweIds.toArray(String[]::new));
+    }
+
+
+    public AnalysisExecutor withAllRules() {
+        List<Config.Rule> rules = ruleSelectorManager.all();
+        if (rules.isEmpty()) {
+            throw new RuntimeException("No rules found.");
+        }
+        this.config.setRules(rules);
+        return this;
+    }
+
+    public List<String> showAllRules() {
+        return ruleSelectorManager.all().stream().map(Config.Rule::getRuleCwe).toList();
     }
 
     public AnalysisExecutor withConfig(String configFilePath) {

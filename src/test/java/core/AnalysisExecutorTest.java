@@ -59,7 +59,7 @@ public class AnalysisExecutorTest {
     }
 
     @Test
-    public void test4(){
+    public void test4() {
         // test WebGoat
         String project = "/home/ran/Documents/work/thusa2/testprojects/WebGoat-5.0";
         String jdk = "jdk/rt.jar";
@@ -83,7 +83,7 @@ public class AnalysisExecutorTest {
     }
 
     @Test
-    public void test5(){
+    public void test5() {
         // test jsp
         String project = "/home/ran/Documents/work/thusa2/testprojects/jsp-demo";
         String jdk = "jdk/rt.jar";
@@ -106,7 +106,7 @@ public class AnalysisExecutorTest {
     }
 
     @Test
-    public void test6(){
+    public void test6() {
         // test zip
         String project = "/home/ran/Documents/work/thusa2/testprojects/jsp-demo.zip";
         String jdk = "jdk/rt.jar";
@@ -129,7 +129,7 @@ public class AnalysisExecutorTest {
     }
 
     @Test
-    public void test7(){
+    public void test7() {
         // test jar
         String project = "/home/ran/Documents/work/thusa2/testprojects/rm-broker.jar";
         String jdk = "jdk/rt.jar";
@@ -154,8 +154,32 @@ public class AnalysisExecutorTest {
     }
 
     @Test
-    public void test8(){
+    public void test8() {
         // cmd
         // /home/ran/.jdks/graalvm-ce-17/bin/java -jar ta.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg SPARK -to 180
     }
+
+
+    @Test
+    public void test9() {
+        // test WebGoat
+        String project = "/home/ran/Documents/work/thusa2/testprojects/WebGoat-5.0";
+        String jdk = "jdk/rt.jar";
+        String result = "result/webgoat_result.json";
+        AnalysisExecutor analysisExecutor = AnalysisExecutor
+                .newInstance()
+                .withDefaultConfig()
+                .setProject(project)
+                .setJDK(jdk)
+                // set rule by cwe id
+                .setRules("22", "78")
+                .trackSourceFile(true)
+                .writeOutput(true)
+                .setOutput(result)
+                .analysis();
+
+        // Show all cwe rules: [78, 22, 89]
+        System.out.println(AnalysisExecutor.newInstance().withDefaultConfig().showAllRules());
+    }
+
 }

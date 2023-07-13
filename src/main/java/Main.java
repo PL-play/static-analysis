@@ -4,11 +4,14 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import ta.AnalysisExecutor;
 
+import java.util.Arrays;
+
 public class Main {
     /**
      * usage: ta [-h] [-dc {true,false}] [-c CONFIG] [-p PROJECT] [-j JDK]
      *           [-t {true,false}] [-w {true,false}] [-o OUTPUT]
-     *           [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT]
+     *           [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT] [-es ENTRYSELECTOR]
+     *           [-pc PATHCHECKER] [-r RULES]
      *
      * Run taint analysis of given project.
      *
@@ -35,6 +38,19 @@ public class Main {
      *                          Call graph algorithm. (default: SPARK)
      *   -to TIMEOUT, --timeout TIMEOUT
      *                          Path reconstruction time out. (default: 180)
+     *   -es ENTRYSELECTOR, --entryselector ENTRYSELECTOR
+     *                          entry        selectors,         choose        from
+     *                          'JspServiceEntry','AnnotationTagEntry','PublicStaticOrMainEntry'.
+     *                          Multiple  selectors  can  be   set   with  ','  in
+     *                          between. Default all
+     *   -pc PATHCHECKER, --pathchecker PATHCHECKER
+     *                          path checkers.  choose  from  'default'.  Multiple
+     *                          selectors can be set with ',' in between.
+     *   -r RULES, --rules RULES
+     *                          rules (cwe id)  for  analysis.  Multiple rules can
+     *                          be set with ',' in  between.   Default all if with
+     *                          default config.
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -48,7 +64,7 @@ public class Main {
                 .help("User defined config file path.");
         parser.addArgument("-p", "--project")
                 .help("Project to be analysis. Can be directory path, .jar file or .zip file path.");
-        parser.addArgument("-j","--jdk")
+        parser.addArgument("-j", "--jdk")
                 .help("Jdk path for the project. can be omitted if configuration file contains it or \"libPath\" of config includes it.");
         parser.addArgument("-t", "--track")
                 .choices("true", "false").setDefault("false")
@@ -68,6 +84,9 @@ public class Main {
 
         parser.addArgument("-pc", "--pathchecker")
                 .help("path checkers. choose from 'default'. Multiple selectors can be set with ',' in between.");
+
+        parser.addArgument("-r", "--rules")
+                .help("rules (cwe id) for analysis. Multiple rules can be set with ',' in between.  Default all if with default config.");
 
         Namespace ns = null;
         try {
@@ -120,6 +139,11 @@ public class Main {
         String pc = ns.getString("pathchecker");
         if (pc != null) {
             analysisExecutor.setPathChecker(pc);
+        }
+
+        String rules = ns.getString("rules");
+        if (rules != null) {
+            analysisExecutor.setRules(Arrays.stream(rules.split(",")).map(String::trim).toList());
         }
 
         analysisExecutor.analysis();

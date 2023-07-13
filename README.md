@@ -71,7 +71,8 @@
 ```
 usage: ta [-h] [-dc {true,false}] [-c CONFIG] [-p PROJECT] [-j JDK]
           [-t {true,false}] [-w {true,false}] [-o OUTPUT]
-          [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT]
+          [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT] [-es ENTRYSELECTOR]
+          [-pc PATHCHECKER] [-r RULES]
 
 Run taint analysis of given project.
 
@@ -103,6 +104,13 @@ named arguments:
                          'JspServiceEntry','AnnotationTagEntry','PublicStaticOrMainEntry'.
                          Multiple  selectors  can  be   set   with  ','  in
                          between. Default all
+  -pc PATHCHECKER, --pathchecker PATHCHECKER
+                         path checkers.  choose  from  'default'.  Multiple
+                         selectors can be set with ',' in between.
+  -r RULES, --rules RULES
+                         rules (cwe id)  for  analysis.  Multiple rules can
+                         be set with ',' in  between.   Default all if with
+                         default config.
 ```
 ### a example:
 ```

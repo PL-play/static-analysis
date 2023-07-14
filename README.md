@@ -69,12 +69,16 @@
 
 ### Use as a standalone tool:
 ```
-usage: ta [-h] [-dc {true,false}] [-c CONFIG] [-p PROJECT] [-j JDK]
-          [-t {true,false}] [-w {true,false}] [-o OUTPUT]
-          [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT] [-es ENTRYSELECTOR]
-          [-pc PATHCHECKER] [-r RULES]
+usage: ta [-h] [-dc {true,false}] [-c CONFIG] [-p [PROJECT [PROJECT ...]]]
+          [-j JDK] [-t {true,false}] [-w {true,false}] [-o OUTPUT]
+          [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT]
+          [-es [ENTRYSELECTOR [ENTRYSELECTOR ...]]]
+          [-pc [PATHCHECKER [PATHCHECKER ...]]] [-r [RULES [RULES ...]]]
+          [-lr LISTRULE]
 
-Run taint analysis of given project.
+Run taint  analysis  of  given  project.  Example:  -dc  true  -p /project1
+/project2 -j /jdk/rt.jar -t true -w true -o result.json -cg SPARK -to 180 -
+r 78 22 89
 
 named arguments:
   -h, --help             show this help message and exit
@@ -82,7 +86,7 @@ named arguments:
                          Specify if use default config. (default: true)
   -c CONFIG, --config CONFIG
                          User defined config file path.
-  -p PROJECT, --project PROJECT
+  -p [PROJECT [PROJECT ...]], --project [PROJECT [PROJECT ...]]
                          Project to be analysis.  Can  be directory path, .
                          jar file or .zip file path.
   -j JDK, --jdk JDK      Jdk path  for  the  project.  can  be  omitted  if
@@ -99,18 +103,20 @@ named arguments:
                          Call graph algorithm. (default: SPARK)
   -to TIMEOUT, --timeout TIMEOUT
                          Path reconstruction time out. (default: 180)
-  -es ENTRYSELECTOR, --entryselector ENTRYSELECTOR
+  -es [ENTRYSELECTOR [ENTRYSELECTOR ...]], --entryselector [ENTRYSELECTOR [ENTRYSELECTOR ...]]
                          entry        selectors,         choose        from
                          'JspServiceEntry','AnnotationTagEntry','PublicStaticOrMainEntry'.
-                         Multiple  selectors  can  be   set   with  ','  in
+                         Multiple  selectors  can  be  set   with  '  '  in
                          between. Default all
-  -pc PATHCHECKER, --pathchecker PATHCHECKER
+  -pc [PATHCHECKER [PATHCHECKER ...]], --pathchecker [PATHCHECKER [PATHCHECKER ...]]
                          path checkers.  choose  from  'default'.  Multiple
-                         selectors can be set with ',' in between.
-  -r RULES, --rules RULES
+                         selectors can be set with ' ' in between.
+  -r [RULES [RULES ...]], --rules [RULES [RULES ...]]
                          rules (cwe id)  for  analysis.  Multiple rules can
-                         be set with ',' in  between.   Default all if with
+                         be set with ' '  in  between.  Default all if with
                          default config.
+  -lr LISTRULE, --listrule LISTRULE
+                         'true' to list rules in current config.
 ```
 ### a example:
 ```

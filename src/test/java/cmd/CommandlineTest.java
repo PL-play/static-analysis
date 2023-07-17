@@ -70,7 +70,14 @@ public class CommandlineTest {
          */
     }
 
-
+    /**
+     * cmd:
+     * /home/ran/.jdks/graalvm-ce-17/bin/java -jar ./target/ta.jar
+     * -p /home/ran/Documents/work/thusa2/testprojects/WebGoat-5.0 /home/ran/Documents/work/thusa2/testprojects/jsp-demo
+     * -j /home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar -t true -w true -o result.json -r 78 22 89
+     *
+     * @throws IOException
+     */
     @Test
     public void test3() throws IOException {
         // java17

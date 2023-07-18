@@ -3,7 +3,7 @@ package core;
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-import utils.SmapInfo;
+import taintanalysis.result.SmapInfo;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package pc;
+package pathchecker;
 
 import org.junit.Test;
-import ta.AnalysisExecutor;
+import taintanalysis.executor.AnalysisExecutor;
 
 public class PathCheckTest {
 

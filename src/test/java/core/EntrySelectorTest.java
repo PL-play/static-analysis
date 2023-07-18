@@ -1,8 +1,8 @@
 package core;
 
 import org.junit.Test;
-import ta.EntrySelector;
-import ta.EntrySelectorManager;
+import taintanalysis.entry.EntrySelector;
+import taintanalysis.entry.EntrySelectorManager;
 
 import java.util.List;
 

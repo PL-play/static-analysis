@@ -1,4 +1,4 @@
-package utils;
+package taintanalysis.result;
 
 import java.util.ArrayList;
 import java.util.List;

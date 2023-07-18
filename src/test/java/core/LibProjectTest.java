@@ -2,7 +2,7 @@ package core;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Test;
-import utils.FileUtility;
+import utils.FileUtil;
 
 import java.nio.file.Path;
 
@@ -11,7 +11,7 @@ public class LibProjectTest {
     @Test
     public void test1() {
         //FileUtility.flatExtractJar("D:\\jsp-demo.zip", "libtest/");
-        FileUtility.flatExtractJar("libtest/sa-compile.jar", "libtest/");
+        FileUtil.flatExtractJar("libtest/sa-compile.jar", "libtest/");
     }
 
     @Test

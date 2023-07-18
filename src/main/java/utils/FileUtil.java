@@ -5,7 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class FileUtility {
+public class FileUtil {
     public static void extractJar(String zipFilePath, String destDirectory) {
         java.util.jar.JarFile jarfile = null;
         try {

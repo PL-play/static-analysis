@@ -10,13 +10,14 @@ import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
-import ta.Config;
-import ta.DetectedResult;
-import ta.ReuseableInfoflow;
-import ta.RuleResult;
+import taintanalysis.config.Config;
+import taintanalysis.result.DetectedResult;
+import taintanalysis.engine.ReuseableInfoflow;
+import taintanalysis.result.RuleResult;
+import taintanalysis.rule.Rule;
 import utils.ClassPathResource;
-import utils.IFFactory;
-import utils.PathOptimization;
+import taintanalysis.engine.IFFactory;
+import utils.PathUtil;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -102,8 +103,8 @@ public class ReuseableInfoflowTest {
                         DetectedResult result = new DetectedResult();
                         result.setSinkSig(sinkSig);
                         result.setSourceSig(source.getDefinition().toString());
-                        result.setPath(PathOptimization.resultPath(infoflow.getICFG(), source, sink));
-                        result.setPathStm(PathOptimization.pathStm(source));
+                        result.setPath(PathUtil.resultPath(infoflow.getICFG(), source, sink));
+                        result.setPathStm(PathUtil.pathStm(source));
                         if (result.getPath().size() > 0) {
                             results.add(result);
                         }
@@ -139,7 +140,7 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList(), c.getPathReconstructionTimeout());
 
         infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
-        List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
+        List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
         System.out.println("命令注入 find " + results.size() + " results");
         try {
             String json = gson.toJson(results);
@@ -149,19 +150,19 @@ public class ReuseableInfoflowTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PathOptimization.deteleTempdir(c.getTempDir());
+        PathUtil.deteleTempdir(c.getTempDir());
     }
 
     @Test
     public void test3() throws IOException {
-        Path tmpdir = PathOptimization.createTempdir();
+        Path tmpdir = PathUtil.createTempdir();
         System.out.println(tmpdir);
         String project = "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0";
         File o = new File("/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0/WebContent/classes/org/owasp/webgoat/LessonSource.class");
-        String relp = PathOptimization.removePrefix(o.getPath(), project);
+        String relp = PathUtil.removePrefix(o.getPath(), project);
         Path path = Paths.get(tmpdir.toString(), relp);
-        PathOptimization.copy(o, path.toFile());
-        PathOptimization.deteleTempdir(tmpdir.toString());
+        PathUtil.copy(o, path.toFile());
+        PathUtil.deteleTempdir(tmpdir.toString());
     }
 
     @Test
@@ -179,7 +180,7 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList());
 
         infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
-        List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
+        List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
         System.out.println("路径操作 find " + results.size() + " results");
         try {
             String json = gson.toJson(results);
@@ -189,7 +190,7 @@ public class ReuseableInfoflowTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PathOptimization.deteleTempdir(c.getTempDir());
+        PathUtil.deteleTempdir(c.getTempDir());
     }
 
     @Test
@@ -207,7 +208,7 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList());
 
         infoflow.computeInfoflow(appPath, libPath, epoints, sources, sinks);
-        List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
+        List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), c.getProject());
         System.out.println("sql注入 find " + results.size() + " results");
         try {
             String json = gson.toJson(results);
@@ -217,7 +218,7 @@ public class ReuseableInfoflowTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PathOptimization.deteleTempdir(c.getTempDir());
+        PathUtil.deteleTempdir(c.getTempDir());
     }
 
 
@@ -238,9 +239,9 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList());
 
         List<RuleResult> ruleResult = new ArrayList<>();
-        for (Config.Rule r : c.getRules()) {
+        for (Rule r : c.getRules()) {
             infoflow.computeInfoflow(appPath, libPath, epoints, r.getSources(), r.getSinks());
-            List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), project);
+            List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), project);
             ruleResult.add(new RuleResult(r.getName(), results));
         }
         try {
@@ -278,9 +279,9 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList(), c.getCallgraphAlgorithm());
 
         List<RuleResult> ruleResult = new ArrayList<>();
-        for (Config.Rule r : c.getRules()) {
+        for (Rule r : c.getRules()) {
             infoflow.computeInfoflow(appPath, libPath, epoints, r.getSources(), r.getSinks());
-            List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), project);
+            List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), project);
             ruleResult.add(new RuleResult(r.getName(), results));
         }
         try {
@@ -291,7 +292,7 @@ public class ReuseableInfoflowTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PathOptimization.deteleTempdir(c.getTempDir());
+        PathUtil.deteleTempdir(c.getTempDir());
     }
 
     @Test
@@ -319,9 +320,9 @@ public class ReuseableInfoflowTest {
         ReuseableInfoflow infoflow = IFFactory.buildReuseable(appPath, c.getExcludes().stream().toList(), c.getCallgraphAlgorithm());
 
         List<RuleResult> ruleResult = new ArrayList<>();
-        for (Config.Rule r : c.getRules()) {
+        for (Rule r : c.getRules()) {
             infoflow.computeInfoflow(appPath, libPath, epoints, r.getSources(), r.getSinks());
-            List<DetectedResult> results = PathOptimization.detectedResults(infoflow, infoflow.getICFG(), project);
+            List<DetectedResult> results = PathUtil.detectedResults(infoflow, infoflow.getICFG(), project);
             ruleResult.add(new RuleResult(r.getName(), results));
         }
         try {
@@ -332,7 +333,7 @@ public class ReuseableInfoflowTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PathOptimization.deteleTempdir(c.getTempDir());
+        PathUtil.deteleTempdir(c.getTempDir());
     }
 
 

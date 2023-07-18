@@ -69,11 +69,11 @@
 
 ### Use as a standalone tool:
 ```
-usage: ta [-h] [-dc {true,false}] [-c CONFIG] [-p [PROJECT [PROJECT ...]]]
+usage: taintanalysis [-h] [-dc {true,false}] [-c CONFIG] [-p [PROJECT [PROJECT ...]]]
           [-j JDK] [-t {true,false}] [-w {true,false}] [-o OUTPUT]
           [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT]
           [-es [ENTRYSELECTOR [ENTRYSELECTOR ...]]]
-          [-pc [PATHCHECKER [PATHCHECKER ...]]] [-r [RULES [RULES ...]]]
+          [-pathchecker [PATHCHECKER [PATHCHECKER ...]]] [-r [RULES [RULES ...]]]
           [-lr LISTRULE]
 
 Run taint  analysis  of  given  project.  Example:  -dc  true  -p /project1
@@ -108,7 +108,7 @@ named arguments:
                          'JspServiceEntry','AnnotationTagEntry','PublicStaticOrMainEntry'.
                          Multiple  selectors  can  be  set   with  '  '  in
                          between. Default all
-  -pc [PATHCHECKER [PATHCHECKER ...]], --pathchecker [PATHCHECKER [PATHCHECKER ...]]
+  -pathchecker [PATHCHECKER [PATHCHECKER ...]], --pathchecker [PATHCHECKER [PATHCHECKER ...]]
                          path checkers.  choose  from  'default'.  Multiple
                          selectors can be set with ' ' in between.
   -r [RULES [RULES ...]], --rules [RULES [RULES ...]]
@@ -120,7 +120,7 @@ named arguments:
 ```
 ### a example:
 ```
-java17 -jar ta.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
+java17 -jar taintanalysis.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
 
 ```
 ### Config example: defaultconfig_sample.json

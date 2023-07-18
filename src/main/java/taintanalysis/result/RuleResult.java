@@ -1,4 +1,4 @@
-package ta;
+package taintanalysis.result;
 
 import java.util.Collections;
 import java.util.List;

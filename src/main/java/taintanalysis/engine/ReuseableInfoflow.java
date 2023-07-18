@@ -1,8 +1,11 @@
-package ta;
+package taintanalysis.engine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import soot.*;
+import soot.PatchingChain;
+import soot.Scene;
+import soot.SootMethod;
+import soot.Unit;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.Infoflow;
 import soot.jimple.infoflow.InfoflowConfiguration;
@@ -41,6 +44,7 @@ import soot.jimple.infoflow.solver.memory.IMemoryManager;
 import soot.jimple.infoflow.sourcesSinks.manager.DefaultSourceSinkManager;
 import soot.jimple.infoflow.sourcesSinks.manager.IOneSourceAtATimeManager;
 import soot.jimple.infoflow.sourcesSinks.manager.ISourceSinkManager;
+import taintanalysis.config.Config;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -61,6 +65,16 @@ public class ReuseableInfoflow extends Infoflow {
 
     private boolean hasUse() {
         return useCount > 0;
+    }
+
+    private Config analysisConfig;
+
+    public Config getAnalysisConfig() {
+        return analysisConfig;
+    }
+
+    public void setAnalysisConfig(Config analysisConfig) {
+        this.analysisConfig = analysisConfig;
     }
 
     public ReuseableInfoflow() {

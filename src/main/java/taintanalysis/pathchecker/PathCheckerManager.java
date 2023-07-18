@@ -1,8 +1,8 @@
-package pc;
+package taintanalysis.pathchecker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ta.ReuseableInfoflow;
+import soot.jimple.infoflow.results.InfoflowResults;
 
 import java.util.*;
 import java.util.function.Function;
@@ -18,7 +18,7 @@ public class PathCheckerManager {
         return new PathCheckerManager();
     }
 
-    public final Function<ReuseableInfoflow, PathCheckResult> defaultChecker = (i) -> {
+    public final Function<InfoflowResults, PathCheckResult> defaultChecker = (i) -> {
         // TODO use ReuseableInfoflow to get results,get icfg and do other operations.
         logger.warn("##################This is the default path checker.################");
 
@@ -26,11 +26,11 @@ public class PathCheckerManager {
     };
     // TODO add more path checker here if needed.
 
-    public final Map<String, Function<ReuseableInfoflow, PathCheckResult>> namedCheckers = new HashMap<>() {{
+    public final Map<String, Function<InfoflowResults, PathCheckResult>> namedCheckers = new HashMap<>() {{
         put("DEFAULT", defaultChecker);
     }};
 
-    public List<Function<ReuseableInfoflow, PathCheckResult>> pathCheckerList(String checkerNames) {
+    public List<Function<InfoflowResults, PathCheckResult>> pathCheckerList(String checkerNames) {
         if (checkerNames == null || checkerNames.isBlank()) {
             return Collections.emptyList();
         }

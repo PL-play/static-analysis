@@ -22,12 +22,12 @@ import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 import soot.tagkit.LineNumberTag;
-import ta.CachedBiDiICFGFactory;
-import ta.DetectedResult;
-import ta.PathUnit;
-import ta.ReuseableInfoflow;
+import taintanalysis.engine.CachedBiDiICFGFactory;
+import taintanalysis.result.DetectedResult;
+import taintanalysis.result.PathUnit;
+import taintanalysis.engine.ReuseableInfoflow;
 import utils.ClassPathResource;
-import utils.PathOptimization;
+import utils.PathUtil;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -64,10 +64,10 @@ public class InfoflowTest {
         String libPath = String.join(File.pathSeparator, realLibPath);
         List<String> libClasses = scanLibClasses(libPath);
         List<String> javaClasses = new ArrayList<>();
-        List<String> classFiles = PathOptimization.filterFile(appPath, new String[]{"**/*.class"});
+        List<String> classFiles = PathUtil.filterFile(appPath, new String[]{"**/*.class"});
         for (var file : classFiles) {
             String absPath = Paths.get(appPath, file).toString();
-            String className = PathOptimization.className(absPath);
+            String className = PathUtil.className(absPath);
             javaClasses.add(className);
 
         }

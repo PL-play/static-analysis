@@ -1,10 +1,12 @@
-package ta;
+package taintanalysis.config;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileUtility;
-import utils.PathOptimization;
+import taintanalysis.entry.EntrySelectorManager;
+import taintanalysis.rule.Rule;
+import utils.FileUtil;
+import utils.PathUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -141,21 +143,21 @@ public class Config {
                     throw new AssertionError("project is not a directory and not a jar or zip!");
                 }
                 this.isProjectAJar = true;
-                Path tmpdir = PathOptimization.createTempdir();
+                Path tmpdir = PathUtil.createTempdir();
                 extractTemp = tempDir;
                 logger.info("create temp dir for extract: {}", tmpdir);
                 String projectName = FilenameUtils.removeExtension(Path.of(project).getFileName().toString());
                 Path workDir = Path.of(tmpdir.toString(), projectName);
-                FileUtility.extractJar(project, workDir.toString());
+                FileUtil.extractJar(project, workDir.toString());
                 this.project = workDir.toString();
             }
             // copy all .class to temporary directory.
-            Path tmpdir = PathOptimization.createTempdir();
+            Path tmpdir = PathUtil.createTempdir();
             logger.info("create temp dir: {}", tmpdir);
             this.tempDir = tmpdir.toString();
             // filter all .class file
-            List<String> classFiles = PathOptimization.filterFile(project, new String[]{"**/*.class"});
-            List<String> jarFiles = PathOptimization.filterFile(project, new String[]{"**/*.jar"});
+            List<String> classFiles = PathUtil.filterFile(project, new String[]{"**/*.class"});
+            List<String> jarFiles = PathUtil.filterFile(project, new String[]{"**/*.jar"});
             // add rt.jar to lib path
             libPath = String.join(File.pathSeparator, jarFiles.stream().map(j -> Paths.get(project, j).toString()).toList());
             if (libPath.isBlank()) {
@@ -169,22 +171,22 @@ public class Config {
             try {
                 for (var file : classFiles) {
                     String absPath = Paths.get(project, file).toString();
-                    String md5 = PathOptimization.md5(absPath);
+                    String md5 = PathUtil.md5(absPath);
                     if (copied.contains(md5)) {
                         continue;
                     }
                     File o = new File(absPath);
-                    String packageName = PathOptimization.classPackageName(absPath);
-                    String className = PathOptimization.className(absPath);
+                    String packageName = PathUtil.classPackageName(absPath);
+                    String className = PathUtil.className(absPath);
                     if (packageName == null) {
                         continue;
                     }
                     if (className != null) {
                         javaClasses.add(className);
                     }
-                    Path d = Paths.get(this.tempDir, PathOptimization.packageToDirString(packageName), o.getName());
+                    Path d = Paths.get(this.tempDir, PathUtil.packageToDirString(packageName), o.getName());
                     logger.info("copy {} to {}", o.getPath(), d);
-                    PathOptimization.copy(o, d.toFile());
+                    PathUtil.copy(o, d.toFile());
                     copied.add(md5);
                 }
             } catch (Exception e) {
@@ -196,7 +198,7 @@ public class Config {
             excludes.addAll(libClasses);
             addEntry();
             if (extractTemp != null) {
-                PathOptimization.deteleTempdir(extractTemp);
+                PathUtil.deteleTempdir(extractTemp);
             }
         }
     }
@@ -246,7 +248,7 @@ public class Config {
 
     public void addEntry() {
         if (autoAddEntry) {
-            List<String> javaClasses = PathOptimization.filterFile(tempDir, new String[]{"**/*.class"});
+            List<String> javaClasses = PathUtil.filterFile(tempDir, new String[]{"**/*.class"});
             EntrySelectorManager entrySelectorManager = EntrySelectorManager.buildEntryManager(tempDir);
             entrySelectorManager.selectorList(entrySelector).forEach(s -> {
                 // TODO filter selectors based on configuration.
@@ -348,54 +350,4 @@ public class Config {
         this.jdk = jdk;
     }
 
-    public static class Rule {
-        private String name;
-
-        private String ruleCwe;
-
-        private Integer ruleLevel;
-        private List<String> sources = Collections.emptyList();
-
-        private List<String> sinks = Collections.emptyList();
-
-        public String getRuleCwe() {
-            return ruleCwe;
-        }
-
-        public void setRuleCwe(String ruleCwe) {
-            this.ruleCwe = ruleCwe;
-        }
-
-        public Integer getRuleLevel() {
-            return ruleLevel;
-        }
-
-        public void setRuleLevel(Integer ruleLevel) {
-            this.ruleLevel = ruleLevel;
-        }
-
-        public List<String> getSources() {
-            return sources;
-        }
-
-        public void setSources(List<String> sources) {
-            this.sources = sources;
-        }
-
-        public List<String> getSinks() {
-            return sinks;
-        }
-
-        public void setSinks(List<String> sinks) {
-            this.sinks = sinks;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 }

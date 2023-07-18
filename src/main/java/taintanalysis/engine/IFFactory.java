@@ -1,10 +1,10 @@
-package utils;
+package taintanalysis.engine;
 
 import soot.jimple.infoflow.InfoflowConfiguration;
 import soot.jimple.infoflow.config.IInfoflowConfig;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
-import ta.ReuseableInfoflow;
+import utils.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;

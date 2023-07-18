@@ -1,7 +1,7 @@
 package core;
 
 import org.junit.Test;
-import ta.AnalysisExecutor;
+import taintanalysis.executor.AnalysisExecutor;
 
 public class AnalysisExecutorTest {
 

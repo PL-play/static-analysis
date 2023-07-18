@@ -1,7 +1,7 @@
 package core;
 
 import org.junit.Test;
-import ta.RuleSelectorManager;
+import taintanalysis.rule.RuleSelectorManager;
 
 public class RuleSelectorTest {
 

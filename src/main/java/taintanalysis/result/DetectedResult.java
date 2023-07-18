@@ -1,4 +1,4 @@
-package ta;
+package taintanalysis.result;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ public class DetectedResult {
     enum Level {
         LOW, MEDIUM, HIGH
     }
+
     private String description;
     private Level severity;
     private Level confidence;

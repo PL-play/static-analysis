@@ -14,8 +14,9 @@ import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
-import ta.DetectedResult;
-import ta.PathUnit;
+import taintanalysis.result.DetectedResult;
+import taintanalysis.result.PathUnit;
+import taintanalysis.result.SmapInfo;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -33,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
-public class PathOptimization {
+public class PathUtil {
 
     public static List<PathUnit> resultPath(IInfoflowCFG icfg, ResultSourceInfo source, ResultSinkInfo sink) {
         return resultPath(icfg, source, sink, null);
@@ -122,7 +123,10 @@ public class PathOptimization {
     }
 
     public static List<DetectedResult> detectedResults(Infoflow infoflow, IInfoflowCFG iCFG, String projectDir, boolean trackSourceFile) {
-        InfoflowResults infoflowResults = infoflow.getResults();
+        return detectedResults(infoflow.getResults(), iCFG, projectDir, trackSourceFile);
+    }
+
+    public static List<DetectedResult> detectedResults(InfoflowResults infoflowResults, IInfoflowCFG iCFG, String projectDir, boolean trackSourceFile) {
         List<DetectedResult> results = new ArrayList<>();
         if (!infoflowResults.isEmpty()) {
             for (ResultSinkInfo sink : infoflowResults.getResults().keySet()) {
@@ -131,8 +135,8 @@ public class PathOptimization {
                     DetectedResult result = new DetectedResult();
                     result.setSinkSig(sinkSig);
                     result.setSourceSig(source.getDefinition().toString());
-                    result.setPath(PathOptimization.resultPath(iCFG, source, sink, projectDir, trackSourceFile));
-                    result.setPathStm(PathOptimization.pathStm(source));
+                    result.setPath(PathUtil.resultPath(iCFG, source, sink, projectDir, trackSourceFile));
+                    result.setPathStm(PathUtil.pathStm(source));
                     if (result.getPath().size() > 0) {
                         results.add(result);
                     }

@@ -1,4 +1,4 @@
-package ta;
+package taintanalysis.entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import soot.SootClass;
 import soot.options.Options;
 import soot.tagkit.AnnotationTag;
 import soot.tagkit.VisibilityAnnotationTag;
-import utils.PathOptimization;
+import utils.PathUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -160,7 +160,7 @@ public class EntrySelectorManager {
     private String className(String classFilePath) {
         String className = classNameCache.get(classFilePath);
         if (className == null) {
-            String fullClassName = PathOptimization.className(classFilePath);
+            String fullClassName = PathUtil.className(classFilePath);
             classNameCache.put(classFilePath, fullClassName);
             return fullClassName;
         }

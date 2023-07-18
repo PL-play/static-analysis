@@ -1,4 +1,4 @@
-package ta;
+package taintanalysis.result;
 
 public class PathUnit {
     private String hint;

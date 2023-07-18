@@ -23,9 +23,9 @@ import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 import soot.tagkit.LineNumberTag;
 import taintanalysis.engine.CachedBiDiICFGFactory;
+import taintanalysis.engine.ReuseableInfoflow;
 import taintanalysis.result.DetectedResult;
 import taintanalysis.result.PathUnit;
-import taintanalysis.engine.ReuseableInfoflow;
 import utils.ClassPathResource;
 import utils.PathUtil;
 

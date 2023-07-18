@@ -8,8 +8,8 @@ import utils.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class IFFactory {
@@ -93,6 +93,6 @@ public class IFFactory {
     }
 
     public static ReuseableInfoflow buildReuseable() {
-        return buildReuseable("", Collections.emptyList(), 180, null);
+        return buildReuseable("", new ArrayList<>(), 180, null);
     }
 }

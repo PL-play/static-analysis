@@ -1,6 +1,6 @@
 package taintanalysis.result;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RuleResult {
@@ -10,7 +10,7 @@ public class RuleResult {
 
     private Integer ruleLevel;
 
-    private List<DetectedResult> result = Collections.emptyList();
+    private List<DetectedResult> result = new ArrayList<>();
 
     private int resultCount;
 

@@ -32,7 +32,7 @@ public class PathCheckerManager {
 
     public List<Function<InfoflowResults, PathCheckResult>> pathCheckerList(String checkerNames) {
         if (checkerNames == null || checkerNames.isBlank()) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return Arrays.stream(checkerNames.split(","))
                 .map(String::trim)

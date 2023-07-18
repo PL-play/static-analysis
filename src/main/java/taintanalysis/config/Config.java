@@ -20,21 +20,21 @@ public class Config {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private boolean autoAddEntry = true;
 
-    private List<String> epoints = Collections.emptyList();
+    private List<String> epoints = new ArrayList<>();
 
     //TODO Optimize deprecated. For now keep them to pass tests.
     @Deprecated
-    private List<String> sources = Collections.emptyList();
+    private List<String> sources = new ArrayList<>();
     @Deprecated
-    private List<String> sinks = Collections.emptyList();
+    private List<String> sinks = new ArrayList<>();
 
     private String appPath;
 
-    private List<String> libPaths = Collections.emptyList();
+    private List<String> libPaths = new ArrayList<>();
 
     private String libPath;
 
-    private Set<String> excludes = Collections.emptySet();
+    private Set<String> excludes =new HashSet<>();
 
     private int pathReconstructionTimeout = 180;
 
@@ -195,7 +195,7 @@ public class Config {
             appPath = tempDir;
             List<String> libClasses = scanLibClasses(libPath);
             libClasses.removeAll(javaClasses);
-            excludes.addAll(libClasses);
+            excludes.addAll(new ArrayList<>(libClasses));
             addEntry();
             if (extractTemp != null) {
                 PathUtil.deteleTempdir(extractTemp);

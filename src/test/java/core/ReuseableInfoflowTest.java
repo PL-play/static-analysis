@@ -11,12 +11,12 @@ import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.options.Options;
 import taintanalysis.config.Config;
-import taintanalysis.result.DetectedResult;
+import taintanalysis.engine.IFFactory;
 import taintanalysis.engine.ReuseableInfoflow;
+import taintanalysis.result.DetectedResult;
 import taintanalysis.result.RuleResult;
 import taintanalysis.rule.Rule;
 import utils.ClassPathResource;
-import taintanalysis.engine.IFFactory;
 import utils.PathUtil;
 
 import java.io.*;

@@ -1,6 +1,6 @@
 package taintanalysis.rule;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rule {
@@ -9,9 +9,9 @@ public class Rule {
     private String ruleCwe;
 
     private Integer ruleLevel;
-    private List<String> sources = Collections.emptyList();
+    private List<String> sources = new ArrayList<>();
 
-    private List<String> sinks = Collections.emptyList();
+    private List<String> sinks = new ArrayList<>();
 
     public String getRuleCwe() {
         return ruleCwe;

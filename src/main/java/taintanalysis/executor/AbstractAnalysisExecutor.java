@@ -29,11 +29,11 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class AbstractAnalysisExecutor implements
-        PreAnalysis<Config, Config>,
+        Preliminary<Config, Config>,
         EngineBuild<Config, Infoflow>,
         Analysis<Infoflow, List<ImmutablePair<Rule, InfoflowResults>>>,
         ResultBuild<List<ImmutablePair<Rule, InfoflowResults>>, List<RuleResult>>,
-        PostAnalysis<List<RuleResult>, Void> {
+        Posterior<List<RuleResult>, Void> {
 
     static final Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -96,7 +96,7 @@ public abstract class AbstractAnalysisExecutor implements
     public abstract AnalysisExecutor analysis();
 
     @Override
-    public Config preAnalysis(Config config) {
+    public Config pre(Config config) {
         if (config == null) {
             throw new AssertionError("config must be set before analysis.");
         }
@@ -158,7 +158,7 @@ public abstract class AbstractAnalysisExecutor implements
     }
 
     @Override
-    public Void postAnalysis(List<RuleResult> unused) {
+    public Void post(List<RuleResult> unused) {
         PathUtil.deteleTempdir(config.getTempDir());
         return null;
     }

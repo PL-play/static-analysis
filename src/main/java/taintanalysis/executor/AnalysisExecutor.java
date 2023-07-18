@@ -118,11 +118,11 @@ public class AnalysisExecutor extends AbstractAnalysisExecutor {
 
     @Override
     public AnalysisExecutor analysis() {
-        Config analysisConfig = preAnalysis(config);
+        Config analysisConfig = pre(config);
         ReuseableInfoflow reuseableInfoflow = (ReuseableInfoflow) buildEngine(analysisConfig);
         List<ImmutablePair<Rule, InfoflowResults>> pairList = doAnalysis(reuseableInfoflow);
         List<RuleResult> ruleResult = buildResult(pairList);
-        postAnalysis(ruleResult);
+        post(ruleResult);
         return this;
     }
 }

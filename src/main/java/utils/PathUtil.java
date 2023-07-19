@@ -73,7 +73,7 @@ public class PathUtil {
                     }
                     SmapInfo smapInfo = getSmapInfo(sourceDebug);
                     List<SmapInfo.LineInfo.LineMapping> jspLineMap = smapInfo.getMapping();
-                    for (var m : jspLineMap) {
+                    for (SmapInfo.LineInfo.LineMapping m : jspLineMap) {
                         if (m.getOutputBeginLine() <= unit.getLine() && unit.getLine() <= m.getOutputEndLine()) {
                             unit.setJspLine(m.getInputLine());
                         }
@@ -94,7 +94,7 @@ public class PathUtil {
         SmapInfo smapInfo = new SmapInfo();
         List<String> smap = Arrays.stream(sourceDebug.split("\n")).toList();
         smapInfo.setSourceFilePath(getSourceJspPath(smap));
-        for (var m : getLineMapping(smap)) {
+        for (String m : getLineMapping(smap)) {
             smapInfo.addLineInfo(m);
         }
         return smapInfo;

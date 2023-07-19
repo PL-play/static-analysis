@@ -169,7 +169,7 @@ public class Config {
             Set<String> copied = new HashSet<>();
             List<String> javaClasses = new ArrayList<>();
             try {
-                for (var file : classFiles) {
+                for (String file : classFiles) {
                     String absPath = Paths.get(project, file).toString();
                     String md5 = PathUtil.md5(absPath);
                     if (copied.contains(md5)) {
@@ -233,7 +233,7 @@ public class Config {
         if (jdk != null && !jdk.isBlank()) {
             realLibPath.add(jdk);
         }
-        for (var path : libPaths) {
+        for (String path : libPaths) {
             if (path.endsWith(".jar")) {
                 realLibPath.add(path);
             } else {

@@ -5,12 +5,14 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import taintanalysis.executor.AnalysisExecutor;
+import taintanalysis.result.RuleResult;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     //    usage: taintanalysis [-h] [-dc {true,false}] [-c CONFIG]
@@ -191,12 +193,12 @@ public class Main {
                 analysisExecutor.analysis();
             });
         } else {
-            var results = new HashMap<>();
+            Map<String, Object> results = new HashMap<>();
             pl.forEach(p -> {
                 analysisExecutor.writeOutput(false);
                 analysisExecutor.setProject(p);
                 analysisExecutor.analysis();
-                var result = analysisExecutor.getRuleResult();
+                List<RuleResult> result = analysisExecutor.getRuleResult();
                 results.put(p, result);
             });
             try {

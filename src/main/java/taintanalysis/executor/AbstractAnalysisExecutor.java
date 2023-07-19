@@ -112,7 +112,7 @@ public abstract class AbstractAnalysisExecutor implements
         config.autoConfig();
         if (!useDefault) {
             List<String> realLibPath = new ArrayList<>();
-            for (var path : config.getLibPaths()) {
+            for (String path : config.getLibPaths()) {
                 if (path.endsWith(".jar")) {
                     realLibPath.add(path);
                 } else {

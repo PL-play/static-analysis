@@ -2,6 +2,9 @@ package core;
 
 import org.junit.Test;
 import taintanalysis.executor.AnalysisExecutor;
+import taintanalysis.result.RuleResult;
+
+import java.util.List;
 
 public class AnalysisExecutorTest {
 
@@ -29,7 +32,7 @@ public class AnalysisExecutorTest {
                 .analysis();
 
         // detect result.
-        var ruleResult = analysisExecutor.getRuleResult();
+        List<RuleResult> ruleResult = analysisExecutor.getRuleResult();
         System.out.println(ruleResult);
     }
 
@@ -49,7 +52,7 @@ public class AnalysisExecutorTest {
                 .analysis();
 
         // detect result.
-        var ruleResult = analysisExecutor.getRuleResult();
+        List<RuleResult> ruleResult = analysisExecutor.getRuleResult();
         System.out.println(ruleResult);
     }
 

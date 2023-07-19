@@ -51,7 +51,7 @@ public class InfoflowTest {
 
 
         List<String> realLibPath = new ArrayList<>();
-        for (var path : lp) {
+        for (String path : lp) {
             if (path.endsWith(".jar")) {
                 realLibPath.add(path);
             } else {
@@ -65,7 +65,7 @@ public class InfoflowTest {
         List<String> libClasses = scanLibClasses(libPath);
         List<String> javaClasses = new ArrayList<>();
         List<String> classFiles = PathUtil.filterFile(appPath, new String[]{"**/*.class"});
-        for (var file : classFiles) {
+        for (String file : classFiles) {
             String absPath = Paths.get(appPath, file).toString();
             String className = PathUtil.className(absPath);
             javaClasses.add(className);
@@ -189,7 +189,7 @@ public class InfoflowTest {
 
 
         List<String> realLibPath = new ArrayList<>();
-        for (var path : lp) {
+        for (String path : lp) {
             if (path.endsWith(".jar")) {
                 realLibPath.add(path);
             } else {
@@ -284,7 +284,7 @@ public class InfoflowTest {
 
 
         List<String> realLibPath = new ArrayList<>();
-        for (var path : lp) {
+        for (String path : lp) {
             if (path.endsWith(".jar")) {
                 realLibPath.add(path);
             } else {
@@ -593,7 +593,7 @@ public class InfoflowTest {
                 sourceInfo = p.getO2().toString();
                 sinkInfo = p.getO1().toString();
                 path = new ArrayList<>();
-                for (var stmt : p.getO2().getPath()) {
+                for (Stmt stmt : p.getO2().getPath()) {
                     path.add(stmt.toString());
                 }
                 pathLength = path.size();
@@ -602,7 +602,7 @@ public class InfoflowTest {
 
         public OutputInfoflowResults(InfoflowResults infoflowResults) {
             this.taints = new ArrayList<>();
-            for (var p : infoflowResults.getResults()) {
+            for (Pair p : infoflowResults.getResults()) {
                 this.taints.add(new OutputSourceSinkInfo(p));
             }
             this.alltaintsnumber = this.taints.size();

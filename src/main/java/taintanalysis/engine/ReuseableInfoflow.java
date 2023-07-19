@@ -98,7 +98,7 @@ public class ReuseableInfoflow extends Infoflow {
 
         } else {
             logger.info("\n---- reuse soot and iCFG to compute info flow ----\n");
-            var sourcesSinks = new DefaultSourceSinkManager(sources, sinks);
+            DefaultSourceSinkManager sourcesSinks = new DefaultSourceSinkManager(sources, sinks);
             final InfoflowPerformanceData performanceData = createPerformanceDataClass();
             try {
                 // Clear the data from previous runs

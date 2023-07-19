@@ -48,7 +48,7 @@ public class SmapInfo {
         if (lineMappings == null) {
             cal();
             List<LineInfo.LineMapping> list = new ArrayList<>();
-            for (var l : lineInfoList) {
+            for (LineInfo l : lineInfoList) {
                 list.addAll(l.getLineMapping());
             }
             lineMappings = list;

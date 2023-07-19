@@ -40,7 +40,7 @@ public class ReuseableInfoflowTest {
 
 
         List<String> realLibPath = new ArrayList<>();
-        for (var path : lp) {
+        for (String path : lp) {
             if (path.endsWith(".jar")) {
                 realLibPath.add(path);
             } else {

@@ -125,7 +125,7 @@ public class SmapTest {
             System.out.println(s);
             List<String> smap = Arrays.stream(s.split("\n")).toList();
             smapInfo.setSourceFilePath(getSourceJspPath(smap));
-            for (var m : getLineMapping(smap)) {
+            for (String m : getLineMapping(smap)) {
                 smapInfo.addLineInfo(m);
             }
             System.out.println(smapInfo.getSourceFilePath());

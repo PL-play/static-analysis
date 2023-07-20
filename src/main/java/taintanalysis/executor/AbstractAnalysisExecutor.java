@@ -151,7 +151,7 @@ public abstract class AbstractAnalysisExecutor implements
         List<String> excludes = config.getExcludes().stream().toList();
         int timeout = config.getPathReconstructionTimeout();
         String callGraphAlgorithm = config.getCallgraphAlgorithm();
-        ReuseableInfoflow reuseableInfoflow = IFFactory.buildReuseable(appPath, excludes, timeout, callGraphAlgorithm);
+        ReuseableInfoflow reuseableInfoflow = IFFactory.buildReusable(appPath, excludes, timeout, callGraphAlgorithm);
         reuseableInfoflow.setAnalysisConfig(config);
         this.infoflow = reuseableInfoflow;
         return reuseableInfoflow;

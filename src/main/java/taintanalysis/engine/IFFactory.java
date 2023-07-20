@@ -14,7 +14,7 @@ import java.util.List;
 
 public class IFFactory {
 
-    public static ReuseableInfoflow buildReuseable(String appPath, List<String> excludes, int pathReconstructionTimeout, String callgraphAlgorithm) {
+    public static ReuseableInfoflow buildReusable(String appPath, List<String> excludes, int pathReconstructionTimeout, String callgraphAlgorithm) {
         // soot config
         IInfoflowConfig sootConfig = (options, config) -> {
             options.set_ignore_classpath_errors(true);
@@ -80,19 +80,19 @@ public class IFFactory {
 
     }
 
-    public static ReuseableInfoflow buildReuseable(String appPath, List<String> excludes, int pathReconstructionTimeout) {
-        return buildReuseable(appPath, excludes, pathReconstructionTimeout, null);
+    public static ReuseableInfoflow buildReusable(String appPath, List<String> excludes, int pathReconstructionTimeout) {
+        return buildReusable(appPath, excludes, pathReconstructionTimeout, null);
     }
 
-    public static ReuseableInfoflow buildReuseable(String appPath, List<String> excludes, String callgraphAlgorithm) {
-        return buildReuseable(appPath, excludes, 180, callgraphAlgorithm);
+    public static ReuseableInfoflow buildReusable(String appPath, List<String> excludes, String callgraphAlgorithm) {
+        return buildReusable(appPath, excludes, 180, callgraphAlgorithm);
     }
 
-    public static ReuseableInfoflow buildReuseable(String appPath, List<String> excludes) {
-        return buildReuseable(appPath, excludes, 180, null);
+    public static ReuseableInfoflow buildReusable(String appPath, List<String> excludes) {
+        return buildReusable(appPath, excludes, 180, null);
     }
 
-    public static ReuseableInfoflow buildReuseable() {
-        return buildReuseable("", new ArrayList<>(), 180, null);
+    public static ReuseableInfoflow buildReusable() {
+        return buildReusable("", new ArrayList<>(), 180, null);
     }
 }

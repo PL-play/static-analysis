@@ -120,7 +120,7 @@ named arguments:
 ```
 ### a example:
 ```
-java17 -jar taintanalysis.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
+java -jar taintanalysis.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
 
 ```
 ### Config example: defaultconfig_sample.json
@@ -251,9 +251,3 @@ java17 -jar taintanalysis.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-
   
 ```
 
-### TODO:
-- Optimize deprecated. For now keep them to pass tests.
-- More annotation to be collected.
-- Jspc compile jsp to java. Incompatible with java 17+. Anyway the jsp compiler should be in a standalone module for best.
-- Support parse from .smap files. But is it necessary? Is there any chance that JSP classes won't contain "sourceDebug"?
-- ...

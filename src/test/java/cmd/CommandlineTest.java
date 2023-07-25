@@ -17,7 +17,7 @@ public class CommandlineTest {
      * @throws IOException
      */
     @Test
-    public void qtest1() throws IOException {
+    public void test1() throws IOException {
         // java17
         String javaHome = System.getProperty("java.home");
         String javaBin = javaHome +

@@ -120,7 +120,7 @@ named arguments:
 ```
 ### a example:
 ```
-java17 -jar taintanalysis.jar -dc true -p "/home/ran/Documents/work/thusa2/ifpc-testcase/WebGoat-5.0" -j "/home/ran/Documents/work/thusa2/ifpc-testcase/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
+java -jar taintanalysis.jar -dc true -p "/p1" -j "/jdk/rt.jar" -t true -w true -o result.json -cg CHA -to 180
 
 ```
 ### Config example: defaultconfig_sample.json

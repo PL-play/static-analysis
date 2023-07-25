@@ -251,9 +251,3 @@ java -jar taintanalysis.jar -dc true -p "/p1" -j "/jdk/rt.jar" -t true -w true -
   
 ```
 
-### TODO:
-- Optimize deprecated. For now keep them to pass tests.
-- More annotation to be collected.
-- Jspc compile jsp to java. Incompatible with java 17+. Anyway the jsp compiler should be in a standalone module for best.
-- Support parse from .smap files. But is it necessary? Is there any chance that JSP classes won't contain "sourceDebug"?
-- ...

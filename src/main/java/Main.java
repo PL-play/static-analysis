@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    //    usage: taintanalysis [-h] [-dc {true,false}] [-c CONFIG]
+//    usage: taintanalysis [-h] [-dc {true,false}] [-c CONFIG]
 //            [-p [PROJECT [PROJECT ...]]] [-j JDK]
 //            [-t {true,false}] [-w {true,false}] [-o OUTPUT]
 //            [-cg {CHA,SPARK,VTA,RTA,GEOM}] [-to TIMEOUT]
 //            [-es [ENTRYSELECTOR [ENTRYSELECTOR ...]]]
 //            [-pc [PATHCHECKER [PATHCHECKER ...]]]
-//            [-r [RULES [RULES ...]]] [-lr LISTRULE]
+//            [-r [RULES [RULES ...]]] [-lr LISTRULE] [-jspc JSPC]
 //
 //    Run taint  analysis  of  given  project.  Example:  -dc  true  -p /project1
 ///project2 -j /jdk/rt.jar -t true -w true -o result.json -cg SPARK -to 180 -
@@ -64,6 +64,8 @@ public class Main {
 //    default config.
 //  -lr LISTRULE, --listrule LISTRULE
 //                         'true' to list rules in current config.
+//            -jspc JSPC, --jspc JSPC
+//                         'true' to compile jsp if have any.
     public static void main(String[] args) {
         ArgumentParser parser = ArgumentParsers.newFor("taintanalysis").build()
                 .defaultHelp(true)
@@ -101,6 +103,9 @@ public class Main {
 
         parser.addArgument("-lr", "--listrule")
                 .help("'true' to list rules in current config.");
+
+        parser.addArgument("-jspc", "--jspc")
+                .help("'true' to compile jsp if have any.");
 
         Namespace ns = null;
         try {
@@ -144,6 +149,12 @@ public class Main {
         if (write != null) {
             System.out.println("write: " + write);
             analysisExecutor.writeOutput(Boolean.parseBoolean(write));
+        }
+
+        String jspc = ns.getString("jspc");
+        if (jspc != null) {
+            System.out.println("jspc: " + jspc);
+            analysisExecutor.setJspc(Boolean.parseBoolean(jspc));
         }
 
         String output = ns.getString("output");

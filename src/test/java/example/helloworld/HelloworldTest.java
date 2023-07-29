@@ -13,7 +13,12 @@ import soot.toolkits.graph.ClassicCompleteUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import tools.visual.Visualizer;
 
+import java.io.Console;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class HelloworldTest {
     public static String sourceDirectory = System.getProperty("user.dir") + File.separator + "target" + File.separator + "classes" + File.separator + "example" + File.separator + "helloworld";
@@ -35,7 +40,7 @@ public class HelloworldTest {
     }
 
     @Test
-    public void test1() {
+    public void test1() throws InterruptedException {
         // Retrieve printFizzBuzz's body
         SootClass mainClass = Scene.v().getSootClass(clsName);
         SootMethod sm = mainClass.getMethodByName(methodName);
@@ -72,14 +77,9 @@ public class HelloworldTest {
             UnitGraph ug = new ClassicCompleteUnitGraph(sm.getActiveBody());
             Visualizer.v().addUnitGraph(ug);
             Visualizer.v().draw();
-        }
-    }
+            TimeUnit.SECONDS.sleep(20);
 
-    @Test
-    public void test2(){
-        System.setProperty("org.graphstream.ui", "swing");
-        Graph graph = new SingleGraph("I can see dead pixels");
-        Viewer viewer = graph.display();
+        }
     }
 
 }

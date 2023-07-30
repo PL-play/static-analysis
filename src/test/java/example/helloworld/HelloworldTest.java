@@ -40,7 +40,7 @@ public class HelloworldTest {
     }
 
     @Test
-    public void test1() throws InterruptedException {
+    public void test1() throws InterruptedException, IOException {
         // Retrieve printFizzBuzz's body
         SootClass mainClass = Scene.v().getSootClass(clsName);
         SootMethod sm = mainClass.getMethodByName(methodName);
@@ -76,8 +76,7 @@ public class HelloworldTest {
         if (drawGraph) {
             UnitGraph ug = new ClassicCompleteUnitGraph(sm.getActiveBody());
             Visualizer.v().addUnitGraph(ug);
-            Visualizer.v().draw();
-            TimeUnit.SECONDS.sleep(20);
+            Visualizer.v().write("cfg.png");
 
         }
     }

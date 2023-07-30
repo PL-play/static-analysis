@@ -11,6 +11,7 @@ import soot.toolkits.scalar.Pair;
 import tools.visual.Visualizer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,7 @@ public class BasicTest {
     }
 
     @Test
-    public void test1() throws InterruptedException {
+    public void test1() throws InterruptedException, IOException {
         // Access to Classes
         SootClass circleClass = reportSootClassInfo();
         // Access to Fields
@@ -87,8 +88,9 @@ public class BasicTest {
                         , sootMethod.getDeclaringClass().isApplicationClass()
                         ? sootMethod.getSubSignature() : sootMethod.getSignature())
         );
-        Visualizer.v().draw();
-        TimeUnit.SECONDS.sleep(60);
+        Visualizer.v().write("cg.png");
+//        Visualizer.v().draw();
+//        TimeUnit.SECONDS.sleep(60);
     }
 
     private SootClass reportSootClassInfo() {

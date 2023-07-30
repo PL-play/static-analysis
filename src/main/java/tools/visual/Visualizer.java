@@ -4,6 +4,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.stream.file.FileSinkImages;
 import org.graphstream.ui.layout.Layout;
 import org.graphstream.ui.layout.springbox.implementations.LinLog;
 import org.graphstream.ui.spriteManager.SpriteManager;
@@ -19,6 +20,7 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.Pair;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,8 +28,9 @@ import java.util.Random;
 
 public class Visualizer {
     public static Visualizer instance;
+
     public static Visualizer v() {
-        if(instance == null)
+        if (instance == null)
             instance = new Visualizer();
         return instance;
     }
@@ -35,11 +38,12 @@ public class Visualizer {
     private Graph graph;
     private SpriteManager sman;
     private Viewer viewer;
-    private final static String[] colors = new String[]{"red", "blue", "seagreen", "darkslategrey", "brown",  "darkgoldenrod", "purple", "mediumaquamarine", "magenta", "indianred"};
-    private Visualizer(){
+    private final static String[] colors = new String[]{"red", "blue", "seagreen", "darkslategrey", "brown", "darkgoldenrod", "purple", "mediumaquamarine", "magenta", "indianred"};
+
+    private Visualizer() {
         if (graph != null)
             graph.clear();
-        if(viewer != null)
+        if (viewer != null)
             viewer.close();
 
         graph = new SingleGraph("Soot");
@@ -50,10 +54,10 @@ public class Visualizer {
         GCSS += "node {\n" +
                 "}\n";
         GCSS += "node.cfg_node {\n" +
-                "\tsize-mode: fit;\n"+
-                "\tshape: rounded-box;\n"+
-                "\tstroke-mode: plain;\n"+
-                "\tpadding: 5px, 5px;\n"+
+                "\tsize-mode: fit;\n" +
+                "\tshape: rounded-box;\n" +
+                "\tstroke-mode: plain;\n" +
+                "\tpadding: 5px, 5px;\n" +
                 "\ttext-size: 16;\n" +
                 "\ttext-color: white;\n" +
                 "}\n";
@@ -63,32 +67,32 @@ public class Visualizer {
         GCSS += "node.cfg_terminal {\n" +
                 "\tfill-color: rgb(00,74,65);\n" +
                 "}\n";
-        for(String color : colors) {
-            GCSS += "node."+color+" {\n" +
-                    "\ttext-color: "+color+";\n" +
-                    "\tshape: rounded-box;\n"+
-                    "\tfill-color: white;\n"+
+        for (String color : colors) {
+            GCSS += "node." + color + " {\n" +
+                    "\ttext-color: " + color + ";\n" +
+                    "\tshape: rounded-box;\n" +
+                    "\tfill-color: white;\n" +
                     "}\n";
         }
         GCSS += "node.default_color {\n" +
                 "\ttext-color: black;\n" +
-                "\tshape: rounded-box;\n"+
-                "\tfill-color: white;\n"+
+                "\tshape: rounded-box;\n" +
+                "\tfill-color: white;\n" +
                 "}\n";
         GCSS += "node.cg_lib_class {\n" +
                 "\tfill-color: blue;\n" +
                 "\ttext-color: white;\n" +
-                "\tshape: rounded-box;\n"+
+                "\tshape: rounded-box;\n" +
                 "}\n";
         GCSS += "node.cg_node {\n" +
-                "\tsize-mode: fit;\n"+
-                "\tstroke-mode: plain;\n"+
-                "\tpadding: 5px, 5px;\n"+
+                "\tsize-mode: fit;\n" +
+                "\tstroke-mode: plain;\n" +
+                "\tpadding: 5px, 5px;\n" +
                 "\ttext-size: 16;\n" +
                 "}\n";
         GCSS += "node.cg_dummy_node {\n" +
                 "\tshape: box;\n" +
-                "\tfill-color: darkslateblue;\n"+
+                "\tfill-color: darkslateblue;\n" +
                 "\ttext-color: white;\n" +
                 "}\n";
         GCSS += "edge {\n" +
@@ -104,11 +108,11 @@ public class Visualizer {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
     }
 
-    public void addUnitGraph(UnitGraph unitGraph){
+    public void addUnitGraph(UnitGraph unitGraph) {
         addUnitGraph(unitGraph, true);
     }
 
-    public void addUnitGraph(UnitGraph unitGraph, boolean indexLabel){
+    public void addUnitGraph(UnitGraph unitGraph, boolean indexLabel) {
 
         int index = 0;
         for (Unit unit : unitGraph) {
@@ -139,10 +143,10 @@ public class Visualizer {
         int x = 50, y = 2000;
         int c = 1;
         Random random = new Random();
-        for(Iterator<Node> it = head.getBreadthFirstIterator(true); it.hasNext();){
+        for (Iterator<Node> it = head.getBreadthFirstIterator(true); it.hasNext(); ) {
             Node node = it.next();
             node.setAttribute("xyz", x, y, 0);
-            x += 50 + random.nextInt(50)-25;
+            x += 50 + random.nextInt(50) - 25;
             y -= c * 50 + random.nextInt(50);
             c *= -1;
         }
@@ -151,15 +155,15 @@ public class Visualizer {
     private String getLabelFromUnit(Unit unit) {
         StringBuilder label;
         label = new StringBuilder(unit.toString());
-        if (unit instanceof JAssignStmt){
+        if (unit instanceof JAssignStmt) {
             JAssignStmt jAssignStmt = (JAssignStmt) unit;
-            if(jAssignStmt.containsInvokeExpr() && jAssignStmt.getInvokeExpr() instanceof JVirtualInvokeExpr){
+            if (jAssignStmt.containsInvokeExpr() && jAssignStmt.getInvokeExpr() instanceof JVirtualInvokeExpr) {
                 label = new StringBuilder(jAssignStmt.getLeftOp().toString() + "=");
                 JVirtualInvokeExpr jVirtualInvokeExpr = (JVirtualInvokeExpr) jAssignStmt.getInvokeExpr();
                 label.append(jVirtualInvokeExpr.getBase()).append(".").append(jVirtualInvokeExpr.getMethod().getName());
-                if(jVirtualInvokeExpr.getArgCount() > 0){
+                if (jVirtualInvokeExpr.getArgCount() > 0) {
                     label.append("(");
-                    for(Value v : jVirtualInvokeExpr.getArgs()){
+                    for (Value v : jVirtualInvokeExpr.getArgs()) {
                         label.append(v.toString()).append(",");
                     }
                     label = new StringBuilder(label.substring(0, label.length() - 1));
@@ -167,14 +171,14 @@ public class Visualizer {
                 }
             }
         }
-        if (unit instanceof JInvokeStmt){
+        if (unit instanceof JInvokeStmt) {
             JInvokeStmt jInvokeStmt = (JInvokeStmt) unit;
-            if(jInvokeStmt.containsInvokeExpr() && jInvokeStmt.getInvokeExpr() instanceof JVirtualInvokeExpr){
+            if (jInvokeStmt.containsInvokeExpr() && jInvokeStmt.getInvokeExpr() instanceof JVirtualInvokeExpr) {
                 JVirtualInvokeExpr jVirtualInvokeExpr = (JVirtualInvokeExpr) jInvokeStmt.getInvokeExpr();
                 label = new StringBuilder(jVirtualInvokeExpr.getBase() + "." + jVirtualInvokeExpr.getMethod().getName());
-                if(jVirtualInvokeExpr.getArgCount() > 0){
+                if (jVirtualInvokeExpr.getArgCount() > 0) {
                     label.append("(");
-                    for(Value v : jVirtualInvokeExpr.getArgs()){
+                    for (Value v : jVirtualInvokeExpr.getArgs()) {
                         label.append(v.toString()).append(",");
                     }
                     label = new StringBuilder(label.substring(0, label.length() - 1));
@@ -190,14 +194,14 @@ public class Visualizer {
         Pair<String, String> getClassLabelPair(SootMethod sootMethod);
     }
 
-    private static class DefaultNodeAttributeConfig implements NodeAttributeConfig{
+    private static class DefaultNodeAttributeConfig implements NodeAttributeConfig {
         @Override
         public Pair<String, String> getClassLabelPair(SootMethod sootMethod) {
             return new Pair<>("cg_node, default_color", sootMethod.getSignature());
         }
     }
 
-    public static class AndroidNodeAttributeConfig implements NodeAttributeConfig{
+    public static class AndroidNodeAttributeConfig implements NodeAttributeConfig {
         List<String> visitedClasses = new ArrayList<>();
         boolean coloredNode;
 
@@ -210,24 +214,22 @@ public class Visualizer {
             Pair<String, String> nodeClassLabelPair = new Pair<>();
             String uiClass = "cg_node";
             String nodeLabel = sootMethod.getDeclaringClass().getShortName() + "." + sootMethod.getName();
-            if(sootMethod.getDeclaringClass().toString().contains("dummy")) {
+            if (sootMethod.getDeclaringClass().toString().contains("dummy")) {
                 uiClass = "cg_node, cg_dummy_node";
                 String[] parts = sootMethod.getName().split("_");
-                nodeLabel = parts[parts.length-1];
-            }
-            else if(coloredNode) {
+                nodeLabel = parts[parts.length - 1];
+            } else if (coloredNode) {
                 String clsName = sootMethod.getDeclaringClass().toString();
-                if(clsName.contains("$"))
+                if (clsName.contains("$"))
                     clsName = clsName.substring(0, clsName.indexOf("$"));
                 if (!visitedClasses.contains(clsName))
                     visitedClasses.add(clsName);
                 int clsIndex = visitedClasses.indexOf(clsName);
-                if(clsIndex < colors.length)
+                if (clsIndex < colors.length)
                     uiClass += ", " + colors[clsIndex];
                 else
                     uiClass += ", default_color";
-            }
-            else{
+            } else {
                 uiClass += ", default_color";
             }
             nodeClassLabelPair.setO1(uiClass);
@@ -236,8 +238,8 @@ public class Visualizer {
         }
     }
 
-    public void addCallGraph(CallGraph callGraph, CallGraphFilter cgFilter, NodeAttributeConfig nodeAttributeConfig){
-        if(nodeAttributeConfig == null)
+    public void addCallGraph(CallGraph callGraph, CallGraphFilter cgFilter, NodeAttributeConfig nodeAttributeConfig) {
+        if (nodeAttributeConfig == null)
             nodeAttributeConfig = new DefaultNodeAttributeConfig();
         for (soot.jimple.toolkits.callgraph.Edge edge : callGraph) {
             try {
@@ -268,28 +270,28 @@ public class Visualizer {
 
     }
 
-    private boolean hasNode(String id){
+    private boolean hasNode(String id) {
         try {
             Node node = graph.getNode(id);
             return node != null;
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return false;
     }
 
-    private boolean hasEdge(String id){
+    private boolean hasEdge(String id) {
         try {
             Edge edge = graph.getEdge(id);
             return edge != null;
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
         return false;
     }
 
-    public void draw(){
-        if(viewer != null)
+    public void draw() {
+        if (viewer != null)
             viewer.close();
         viewer = graph.display();
 //        View view = viewer.getDefaultView();
@@ -298,7 +300,19 @@ public class Visualizer {
 //        layout.setStabilizationLimit(10);
     }
 
-    public void close(){
+    public void write(String fileName) throws IOException {
+        if (viewer != null)
+            viewer.close();
+        FileSinkImages pic = new FileSinkImages(FileSinkImages.OutputType.png, FileSinkImages.Resolutions.HD720);
+        pic.setLayoutPolicy(FileSinkImages.LayoutPolicy.COMPUTED_FULLY_AT_NEW_IMAGE);
+        pic.setQuality(FileSinkImages.Quality.HIGH);
+        pic.setRenderer(FileSinkImages.RendererType.SCALA);
+        pic.writeAll(graph, fileName);
+
+    }
+
+
+    public void close() {
         if (viewer != null)
             viewer.close();
         if (graph != null)
@@ -307,11 +321,11 @@ public class Visualizer {
         sman = null;
     }
 
-    private String getID(Object a){
+    private String getID(Object a) {
 //        String id = Integer.toString(System.identityHashCode(a));
         String id = Integer.toString(a.hashCode());
         StringBuilder newId = new StringBuilder();
-        for(int i=0; i< id.length(); i++){
+        for (int i = 0; i < id.length(); i++) {
             newId.append((char) (97 + id.codePointAt(i) - "0".codePointAt(0)));
         }
         return newId.toString();

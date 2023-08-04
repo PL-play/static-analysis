@@ -1,11 +1,9 @@
 package example.helloworld;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
 import org.junit.Before;
 import org.junit.Test;
 import soot.*;
+import soot.jimple.IdentityStmt;
 import soot.jimple.JimpleBody;
 import soot.jimple.internal.JIfStmt;
 import soot.options.Options;
@@ -13,19 +11,13 @@ import soot.toolkits.graph.ClassicCompleteUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import tools.visual.Visualizer;
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
-public class HelloworldTest {
+public class Test1 {
     public static String sourceDirectory = System.getProperty("user.dir") + File.separator + "target" + File.separator + "classes";
-    public static String clsName = "example.helloworld.FizzBuzz";
-    public static String methodName = "printFizzBuzz";
+    public static String clsName = "example.helloworld.Test";
+    public static String methodName = "foo";
 
     public boolean drawGraph = true;
 
@@ -58,21 +50,22 @@ public class HelloworldTest {
             System.out.println(l.getName() + " : " + l.getType());
         }
         System.out.println("--------------");
-        System.out.println("This: " + body.getThisLocal());
+        //System.out.println("This: " + body.getThisLocal());
         System.out.println("--------------");
         System.out.println("Units:");
         int c = 1;
         for (Unit u : body.getUnits()) {
-            System.out.println("(" + c + ") " + u.toString());
+            System.out.println("(" + c + ") " + u.toString()+" | "+u.getClass());
             c++;
         }
         System.out.println("--------------");
+        System.out.println("getFirstNonIdentityStmt:");
+        System.out.println(body.getFirstNonIdentityStmt());
 
         // Print statements that have branch conditions
-        System.out.println("Branch Statements:");
-        for (Unit u : body.getUnits()) {
-            if (u instanceof JIfStmt)
-                System.out.println(u);
+        System.out.println("Locals:");
+        for (Local u : body.getLocals()) {
+                System.out.println(u.toString());
         }
 
         // Draw the control-flow graph of the method
